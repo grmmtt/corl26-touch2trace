@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Touch2Trace — Tactile-Driven Dexterous Cable Tracing</title>
+  <meta name="description" content="Touch2Trace is a tactile-driven imitation-learning system for dexterous cable tracing, accepted at CoRL 2026.">
+  <meta name="author" content="Matteo Grimaldi, David Klee, Ziling Chen, Tong Jian, Wonju Lee, Wenjie Lu, Tao Yu, Saleh Nabi">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://grmmtt.github.io/corl26-touch2trace/">
+
+  <meta property="og:title" content="Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing">
+  <meta property="og:description" content="Dexterous cable tracing from 10.1 minutes of demonstrations using dense tactile sensing and proprioception.">
+  <meta property="og:url" content="https://grmmtt.github.io/corl26-touch2trace/">
+  <meta property="og:image" content="https://grmmtt.github.io/corl26-touch2trace/assets/img/social-preview.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Touch2Trace tactile-driven dexterous cable tracing project overview">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing">
+  <meta name="twitter:description" content="Accepted at CoRL 2026. Tactile-driven cable tracing without vision or explicit cable-state estimation.">
+  <meta name="twitter:image" content="https://grmmtt.github.io/corl26-touch2trace/assets/img/social-preview.webp">
+  <meta name="twitter:image:alt" content="Touch2Trace tactile-driven dexterous cable tracing project overview">
+
+  <meta name="citation_title" content="Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing">
+  <meta name="citation_author" content="Grimaldi, Matteo">
+  <meta name="citation_author" content="Klee, David">
+  <meta name="citation_author" content="Chen, Ziling">
+  <meta name="citation_author" content="Jian, Tong">
+  <meta name="citation_author" content="Lee, Wonju">
+  <meta name="citation_author" content="Lu, Wenjie">
+  <meta name="citation_author" content="Yu, Tao">
+  <meta name="citation_author" content="Nabi, Saleh">
+  <meta name="citation_date" content="2026/09/14">
+  <meta name="citation_arxiv_id" content="2609.15921">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2609.15921">
+
+  <script>
+    (() => {
+      try {
+        const storedTheme = localStorage.getItem('touch2trace-theme');
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        const theme = storedTheme === 'dark' || storedTheme === 'light'
+          ? storedTheme
+          : prefersDark ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#111417' : '#ffffff';
+      } catch (_) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/pdf" title="Touch2Trace paper PDF" href="https://arxiv.org/pdf/2609.15921">
+  <link rel="stylesheet" href="assets/css/style.css?v=12">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="hero">
+    <div class="container brand-rail">
+      <a class="conference-brand" href="https://www.corl.org/" target="_blank" rel="noopener" aria-label="Conference on Robot Learning website">
+        <img src="assets/img/corl-2026-logo.webp" alt="CoRL" width="720" height="253" decoding="async">
+      </a>
+      <a class="adi-brand" href="https://www.analog.com/" target="_blank" rel="noopener" aria-label="Analog Devices website">
+        <img src="assets/img/adi-logo.svg" alt="Analog Devices" width="432" height="123" decoding="async">
+      </a>
+    </div>
+
+    <div class="container hero__content">
+      <p class="eyebrow">Tactile imitation learning for deformable-object manipulation</p>
+      <h1><span>Touch2Trace:</span> Tactile&#8209;Driven Imitation Learning for Dexterous Cable Tracing</h1>
+
+      <p class="authors">
+        <a href="https://www.linkedin.com/in/matteogrimaldi11/" target="_blank" rel="noopener">Matteo Grimaldi</a>,
+        <a href="https://www.linkedin.com/in/david-klee/" target="_blank" rel="noopener">David Klee</a>,
+        <a href="https://www.linkedin.com/in/ziling-archer-chen/" target="_blank" rel="noopener">Ziling Chen</a>,
+        <a href="https://www.linkedin.com/in/tong-jian/" target="_blank" rel="noopener">Tong Jian</a>,
+        <a href="https://www.linkedin.com/in/wonjulee19/" target="_blank" rel="noopener">Wonju Lee</a>,
+        <a href="https://www.linkedin.com/in/wenjie-lu/" target="_blank" rel="noopener">Wenjie Lu</a>,
+        <a href="https://www.linkedin.com/in/taoyumit/" target="_blank" rel="noopener">Tao Yu</a>,
+        <a href="https://www.linkedin.com/in/saleh-nabi-877ba573" target="_blank" rel="noopener">Saleh Nabi</a>
+      </p>
+
+      <p class="affiliation">Dexterous AI Group, Analog Devices, Inc.</p>
+
+      <nav class="resource-links" aria-label="Project resources">
+        <a class="button button--primary" href="https://arxiv.org/abs/2609.15921" target="_blank" rel="noopener">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+          arXiv
+        </a>
+        <a class="button" href="https://arxiv.org/pdf/2609.15921" target="_blank" rel="noopener">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+          PDF
+        </a>
+        <a class="button" href="#video">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5z"/><rect x="2" y="4" width="20" height="16" rx="3"/></svg>
+          Video
+        </a>
+        <span class="button button--disabled" aria-disabled="true" title="Code coming soon">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
+          Code <small>coming soon</small>
+        </span>
+        <span class="button button--disabled" aria-disabled="true" title="Dataset coming soon">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></svg>
+          Dataset <small>coming soon</small>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="Page sections">
+    <div class="container section-nav__inner">
+      <a class="section-nav__mark" href="#overview" aria-label="Touch2Trace overview">T2T</a>
+      <button class="section-nav__menu" type="button" aria-expanded="false" aria-controls="section-links">
+        <span>Sections</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg>
+      </button>
+      <div class="section-nav__links" id="section-links">
+        <a href="#overview">Overview</a>
+        <a href="#video">Video</a>
+        <a href="#system">System</a>
+        <a href="#model">Model</a>
+        <a href="#results">Results</a>
+        <a href="#citation">Reference</a>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
+        <svg class="theme-toggle__sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="theme-toggle__moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section id="overview" class="section section--overview" data-nav-section>
+      <div class="container">
+        <div class="section-kicker">
+          <p class="eyebrow">Graphical Abstract</p>
+          <h2>The Touch2Trace system at a glance.</h2>
+        </div>
+        <figure class="paper-figure paper-figure--overview">
+          <img src="assets/img/overview.webp" alt="Touch2Trace overview showing the tactile recipe, imitation-learning pipeline, pinch-and-curl sequence, fingertip tactile maps, and cable generalization" width="2775" height="785" decoding="async" fetchpriority="high">
+          <figcaption>Touch2Trace leverages rich, dense tactile data to learn cable tracing from 10.1 minutes of teleoperated demonstrations. The tactile-driven policy maps proprioception and tactile observations to joint commands and transfers zero-shot across cable variants.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="abstract" class="section section--abstract">
+      <div class="container abstract-layout">
+        <div class="abstract-heading">
+          <p class="eyebrow">Abstract</p>
+          <h2>Abstract</h2>
+        </div>
+        <div class="abstract-copy">
+          <p>Dexterous manipulation of deformable objects demands continuous fingertip-level regulation of pressure, friction, and incipient slip. We study one of the most challenging cases: dexterous cable tracing, feeding a cable through the hand with repeated pinch-and-curl motions of the thumb and index finger.</p>
+          <p>We introduce <strong>Touch2Trace</strong>, a tactile-driven imitation-learning system for this task, and provide, to our knowledge, the first systematic real-world characterization of how encoder pretraining, control rate, temporal context, and spatial resolution each shape policy performance. The winning learning recipe combines a tactile encoder pretrained for a custom 32 × 32 piezoresistive sensor (TacV5) via self-supervised learning with a lightweight transformer policy trained on teleoperated demonstrations via behavior cloning, deployed at 60 Hz on a Tesollo DG-5F hand.</p>
+          <p>Tactile feedback without vision or explicit cable-state estimation significantly improves tracing performance versus a proprioception-only baseline: from 0.2 cm to 20.1 cm mean distance and 0% to 93% success rate, with zero-shot transfer to unseen cables and routing conditions. The results quantify the influence of key parameters in tactile-driven systems for reliable dexterous deformable object manipulation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="section section--video" data-nav-section>
+      <div class="container">
+        <div class="section-heading section-heading--light section-heading--minimal">
+          <p class="eyebrow">Summary Video</p>
+          <h2>Summary Video</h2>
+        </div>
+        <div class="video-embed">
+          <video controls playsinline preload="metadata" poster="assets/img/video-poster.webp" aria-label="Touch2Trace narrated summary video" aria-describedby="summary-video-description">
+            <source src="assets/video/touch2trace-summary.mp4" type="video/mp4">
+            Your browser does not support embedded video. <a href="assets/video/touch2trace-summary.mp4">Download the summary video.</a>
+          </video>
+        </div>
+        <p class="video-caption" id="summary-video-description">A narrated overview of the system, learning architecture, experiments, and autonomous cable-tracing results.</p>
+      </div>
+    </section>
+
+    <section id="system" class="section section--system" data-nav-section>
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">System</p>
+          <h2>System, Data Collection &amp; Evaluation</h2>
+          <p>A tactile-equipped dexterous hand, an efficient teleoperation pipeline, and perception-independent measurement form the real-world learning platform.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-card__index">01</span>
+            <h3>Tactile sensing</h3>
+            <p>Custom TacV5 arrays provide dense 32 × 32 pressure maps on the thumb and index finger at 240 Hz.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-card__index">02</span>
+            <h3>Demonstration collection</h3>
+            <p>Twelve glove-teleoperated trajectories—10.1 minutes in total—capture repeated open, pinch, and curl motions.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-card__index">03</span>
+            <h3>Independent evaluation</h3>
+            <p>A mechanical rotary encoder measures cable displacement without exposing cable state to the learned policy.</p>
+          </article>
+        </div>
+
+        <figure class="paper-figure">
+          <img src="assets/img/hardware.webp" alt="TacV5 fingertip sensor, Tesollo DG-5F hand, Manus teleoperation glove, cable routing, and rotary encoder setup" width="2833" height="880" loading="lazy" decoding="async">
+          <figcaption>Hardware and experimental setup: TacV5 tactile fingertips, glove-based teleoperation, and an independent rotary encoder for ground-truth tracing distance.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="model" class="section section--model" data-nav-section>
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Model</p>
+          <h2>Model &amp; Architecture</h2>
+          <p>A frozen tactile representation feeds a compact temporal policy that maps contact history directly to eight joint targets.</p>
+        </div>
+
+        <div class="pipeline-card" data-pipeline>
+          <div class="pipeline-card__bar">
+            <span class="pipeline-live"><i aria-hidden="true"></i><span>Live architecture</span></span>
+            <button class="pipeline-toggle" type="button" aria-pressed="false">
+              <svg class="pipeline-toggle__pause" aria-hidden="true" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+              <svg class="pipeline-toggle__play" aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 9 6-9 6z"/></svg>
+              <span>Pause flow</span>
+            </button>
+          </div>
+
+          <div class="architecture-viewport" role="region" tabindex="0" aria-label="Scrollable architecture figure from the Touch2Trace paper">
+            <div class="architecture-figure" data-live-architecture>
+              <img src="assets/img/model-architecture.svg" alt="Touch2Trace architecture with separate proprioception and tactile branches, frozen ViT-MAE encoding, late fusion, a trainable policy, joint targets, and a 60 hertz closed loop" width="1938" height="665" loading="lazy" decoding="async">
+              <svg class="architecture-overlay" viewBox="0 0 1938 665" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                  <filter id="architecture-soft-glow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="1.8" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <path id="architecture-path-orange" d="M 411 143.464844 L 825 143.464844 C 839.359375 143.464844 849 153.105469 849 167.464844 L 849 274.964844"/>
+                  <path id="architecture-path-tactile" d="M 489 500.464844 L 553 500.464844"/>
+                  <path id="architecture-path-blue" d="M 696 501.964844 L 825 501.964844 C 839.359375 501.964844 849 490.117188 849 477.964844 L 849 376.964844"/>
+                  <path id="architecture-path-fusion" d="M 905 325.738281 L 1009.5 325.738281"/>
+                  <path id="architecture-path-policy-1" d="M 1192 348.738281 L 1213.5 348.738281"/>
+                  <path id="architecture-path-policy-2" d="M 1406 348.738281 L 1426.5 348.738281"/>
+                  <path id="architecture-path-output" d="M 1554 325.558594 L 1627 325.558594"/>
+                  <path id="architecture-path-loop" d="M 1838 239.738281 L 1838 26.464844 C 1838 13.5 1827 2.464844 1814 2.464844 L 275 2.464844 C 262 2.464844 251 13.5 251 26.464844 L 251 42.464844"/>
+                </defs>
+                <circle class="architecture-particle architecture-particle--orange" data-particle="orange" r="8.8"/>
+                <circle class="architecture-particle architecture-particle--orange" data-particle="orange-secondary" r="7.2"/>
+                <circle class="architecture-particle architecture-particle--blue" data-particle="tactile" r="7"/>
+                <circle class="architecture-particle architecture-particle--blue" data-particle="blue" r="8.8"/>
+                <circle class="architecture-particle architecture-particle--blue" data-particle="blue-secondary" r="7.2"/>
+                <circle class="architecture-particle architecture-particle--gray" data-particle="fusion-output" r="6.8"/>
+                <circle class="architecture-particle architecture-particle--purple" data-particle="policy-1" r="6.2"/>
+                <circle class="architecture-particle architecture-particle--purple" data-particle="policy-2" r="6.2"/>
+                <circle class="architecture-particle architecture-particle--purple" data-particle="output" r="8"/>
+                <circle class="architecture-particle architecture-particle--gray" data-particle="loop" r="7.4"/>
+                <circle class="architecture-particle architecture-particle--gray" data-particle="loop-secondary" r="6.2"/>
+                <ellipse class="architecture-pulse architecture-pulse--fusion" data-pulse="fusion" cx="849" cy="325.964844" rx="18" ry="18"/>
+                <ellipse class="architecture-pulse architecture-pulse--encoder" data-pulse="encoder" cx="611" cy="501" rx="15" ry="15"/>
+                <circle class="architecture-module-dot" data-module="projection" cx="1110" cy="349" r="6.2"/>
+                <circle class="architecture-module-dot" data-module="transformer" cx="1310" cy="349" r="6.2"/>
+                <circle class="architecture-module-dot" data-module="gmm" cx="1483" cy="349" r="6.2"/>
+              </svg>
+            </div>
+          </div>
+          <p class="architecture-hint"><span>Signals flow from tactile and proprioceptive history through the policy and back around the 60 Hz control loop.</span><span>Swipe horizontally on smaller screens.</span></p>
+          <span class="architecture-status" data-architecture-status aria-live="polite"></span>
+        </div>
+
+        <div class="training-recipe">
+          <div>
+            <p class="eyebrow">Training Recipe</p>
+            <h3>Pretrain perception, then learn the task.</h3>
+            <p>The tactile encoder is pretrained on diverse contact data and frozen. Only the lightweight behavior-cloning policy is optimized on cable-tracing demonstrations.</p>
+          </div>
+          <dl class="training-recipe__facts">
+            <div><dt>Encoder pretraining</dt><dd>≈2M simulated + 30K real tactile frames</dd></div>
+            <div><dt>Task data</dt><dd>12 demonstrations · 10.1 minutes</dd></div>
+            <div><dt>Observation window</dt><dd>15 frames · 250 ms</dd></div>
+            <div><dt>Deployment</dt><dd>Behavior cloning · 60 Hz</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="section section--results" data-nav-section>
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Results</p>
+          <h2>Touch is essential, not incremental.</h2>
+          <p>Dense tactile feedback enables stable pinch-and-curl tracing, smooth closed-loop control, and transfer to unseen cable materials and routings.</p>
+        </div>
+
+        <figure class="demo-video">
+          <div class="demo-video__frame">
+            <video muted loop playsinline preload="metadata" poster="assets/img/tracing-demo-poster.webp" data-demo-video aria-describedby="tracing-video-description">
+              <source src="assets/video/tracing-demo.mp4" type="video/mp4">
+              Your browser does not support embedded video. <a href="assets/video/tracing-demo.mp4">Download the tracing demonstration.</a>
+            </video>
+            <div class="demo-video__label"><i aria-hidden="true"></i>Autonomous tracing · 1× speed</div>
+            <button class="demo-video__toggle is-paused" type="button" aria-label="Play short tracing video">
+              <svg class="demo-video__pause" aria-hidden="true" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+              <svg class="demo-video__play" aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 9 6-9 6z"/></svg>
+            </button>
+          </div>
+          <figcaption id="tracing-video-description">The policy continuously regulates contact as the thumb and index finger advance along the cable through repeated pinch-and-curl motions.</figcaption>
+        </figure>
+
+        <div class="metric-grid">
+          <div class="metric-card metric-card--blue">
+            <strong>20.1 <small>cm</small></strong>
+            <span>Mean traced distance</span>
+            <p>On unseen Ethernet cable in straight routing.</p>
+          </div>
+          <div class="metric-card metric-card--sky">
+            <strong>93<small>%</small></strong>
+            <span>Success at 10 cm</span>
+            <p>On unseen Ethernet cable in straight routing, compared with 0% using proprioception alone.</p>
+          </div>
+          <div class="metric-card metric-card--steel">
+            <strong>2.75<small>×</small></strong>
+            <span>Smoother actions</span>
+            <p>Action smoothness of 0.004 versus 0.011 for the matched proprioception-only baseline.</p>
+          </div>
+          <div class="metric-card metric-card--ink">
+            <strong>3.4 <small>ms</small></strong>
+            <span>Model inference latency</span>
+            <p>The measured sense-to-act path is at most 11.8 ms, within the 16.7 ms control period.</p>
+          </div>
+        </div>
+
+        <div class="characterization">
+          <div class="characterization__copy">
+            <p class="eyebrow">Core Experiment · Tactile-Property Characterization</p>
+            <h3>The strongest tested configuration preserves tactile detail.</h3>
+            <p>On this hardware and task, controlled ablations show substantial performance losses when control frequency, temporal context, or tactile spatial resolution is reduced.</p>
+            <div class="recipe__chips" role="list" aria-label="Best-performing tactile configuration">
+              <span role="listitem">Frozen SSL encoder</span>
+              <span role="listitem">60 Hz control</span>
+              <span role="listitem">≈ 250 ms context</span>
+              <span role="listitem">32 × 32 resolution</span>
+            </div>
+          </div>
+          <figure class="paper-figure paper-figure--inset">
+            <img src="assets/img/tactile-properties.webp" alt="Ablation charts for control frequency, temporal context, and tactile spatial resolution" width="2130" height="853" loading="lazy" decoding="async">
+            <figcaption>The 60 Hz, 15-frame, 32 × 32 setting is the strongest configuration evaluated on this platform.</figcaption>
+          </figure>
+        </div>
+
+        <div class="results-split results-split--necessity">
+          <div class="results-copy">
+            <p class="eyebrow">Tactile Necessity</p>
+            <h3>Pressure dynamics reveal what joints cannot.</h3>
+            <p>Joint positions contain no direct information about cable contact, pressure distribution, or slip. The tactile policy advances steadily throughout the rollout, while the proprioception-only policy stalls near its starting point.</p>
+            <div class="comparison-stats" role="list" aria-label="Tactile necessity comparison">
+              <span role="listitem"><strong>20.1 cm</strong>Tactile + proprioception</span>
+              <span role="listitem"><strong>0.2 cm</strong>Proprioception only</span>
+            </div>
+          </div>
+          <figure class="paper-figure paper-figure--inset paper-figure--comparison">
+            <img src="assets/img/tactile-vs-proprio.webp" alt="Distance over time showing tactile plus proprioception reaching 20.1 centimeters while proprioception alone remains at 0.2 centimeters" width="1195" height="660" loading="lazy" decoding="async">
+            <figcaption>Mean cumulative cable distance over a 30-second rollout.</figcaption>
+          </figure>
+        </div>
+
+        <div class="results-split results-split--reverse results-split--generalization">
+          <figure class="paper-figure paper-figure--inset paper-figure--cables">
+            <img src="assets/img/cable-variants.webp" alt="Five cable evaluation conditions including USB and Ethernet cables in ring and straight routing" width="1810" height="483" loading="lazy" decoding="async">
+            <figcaption>Training uses only USB-0 in ring routing; every other cable and routing combination is zero-shot.</figcaption>
+          </figure>
+          <div class="results-copy">
+            <p class="eyebrow">Generalization</p>
+            <h3>One training cable, four unseen conditions.</h3>
+            <p>The learned policy transfers across cable material, diameter, and routing. Even the hardest thin-cable condition reaches 10.4 cm on average without retraining.</p>
+          </div>
+        </div>
+
+        <div class="table-shell table-shell--generalization" role="region" aria-label="Zero-shot cable generalization results" tabindex="0">
+          <table>
+            <caption><strong>Zero-shot generalization</strong><span>Training condition: USB-0 · ring routing</span></caption>
+            <thead>
+              <tr>
+                <th scope="col">Cable</th>
+                <th scope="col">Routing</th>
+                <th scope="col">Distance (cm)</th>
+                <th scope="col"><abbr title="Success rate at 10 centimeters">SR@10</abbr></th>
+                <th scope="col"><abbr title="Success rate at 20 centimeters">SR@20</abbr></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-row--train"><th scope="row">USB-0 <span>train</span></th><td>Ring</td><td>25.5 ± 7.2</td><td>96%</td><td>73%</td></tr>
+              <tr><th scope="row">USB-1</th><td>Straight</td><td>17.8 ± 8.1</td><td>73%</td><td>38%</td></tr>
+              <tr><th scope="row">USB-2</th><td>Straight</td><td>10.4 ± 4.9</td><td>47%</td><td>13%</td></tr>
+              <tr class="table-row--highlight"><th scope="row">Ethernet</th><td>Straight</td><td>20.1 ± 4.6</td><td>93%</td><td>57%</td></tr>
+              <tr><th scope="row">Ethernet</th><td>Ring</td><td>24.7 ± 7.2</td><td>97%</td><td>73%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="citation" class="section section--citation" data-nav-section>
+      <div class="container citation-layout">
+        <div class="citation-copy">
+          <p class="eyebrow">Reference</p>
+          <h2>Cite Touch2Trace</h2>
+          <p class="citation-title">Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing</p>
+          <p class="citation-meta">[1] M. Grimaldi, D. Klee, Z. Chen, T. Jian, W. Lee, W. Lu, T. Yu, and S. Nabi · CoRL 2026 · arXiv:2609.15921</p>
+        </div>
+        <div class="citation-actions">
+          <a class="citation-link" href="https://arxiv.org/abs/2609.15921" target="_blank" rel="noopener">View arXiv</a>
+          <button class="copy-button" type="button" data-copy-bibtex>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+            <span aria-live="polite">Copy BibTeX</span>
+          </button>
+        </div>
+        <pre id="bibtex" hidden><code>@misc{grimaldi2026touch2trace,
+  title         = {Touch2Trace: Tactile-Driven Imitation Learning
+                   for Dexterous Cable Tracing},
+  author        = {Matteo Grimaldi and David Klee and Ziling Chen
+                   and Tong Jian and Wonju Lee and Wenjie Lu
+                   and Tao Yu and Saleh Nabi},
+  year          = {2026},
+  eprint        = {2609.15921},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2609.15921}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <div><strong>Touch2Trace</strong><span>Accepted at CoRL 2026</span></div>
+      <p>Dexterous AI Group, Analog Devices, Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      const themeToggle = document.querySelector('.theme-toggle');
+      const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const menuButton = document.querySelector('.section-nav__menu');
+      const sectionLinks = document.querySelector('.section-nav__links');
+      const navLinks = [...document.querySelectorAll('.section-nav__links a')];
+
+      const applyTheme = (theme) => {
+        root.dataset.theme = theme;
+        themeColor.content = theme === 'dark' ? '#111417' : '#ffffff';
+        const label = `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`;
+        themeToggle?.setAttribute('aria-label', label);
+        themeToggle?.setAttribute('title', label);
+      };
+      applyTheme(root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+      themeToggle?.addEventListener('click', () => {
+        const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        try { localStorage.setItem('touch2trace-theme', nextTheme); } catch (_) {}
+      });
+
+      colorScheme.addEventListener?.('change', (event) => {
+        try {
+          if (!localStorage.getItem('touch2trace-theme')) applyTheme(event.matches ? 'dark' : 'light');
+        } catch (_) {
+          applyTheme(event.matches ? 'dark' : 'light');
+        }
+      });
+
+      const closeMenu = () => {
+        menuButton?.setAttribute('aria-expanded', 'false');
+        sectionLinks?.classList.remove('is-open');
+      };
+
+      menuButton?.addEventListener('click', () => {
+        const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', String(!isOpen));
+        sectionLinks?.classList.toggle('is-open', !isOpen);
+      });
+      navLinks.forEach((link) => link.addEventListener('click', closeMenu));
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) closeMenu();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenu();
+      });
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.section-nav')) closeMenu();
+      });
+
+      const sections = [...document.querySelectorAll('[data-nav-section]')];
+      const setActiveLink = (id) => {
+        navLinks.forEach((link) => {
+          const active = link.hash === `#${id}`;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      };
+      const initialSection = navLinks.some((link) => link.hash === window.location.hash)
+        ? window.location.hash.slice(1)
+        : 'overview';
+      setActiveLink(initialSection);
+      const isAtPageEnd = () => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      const syncPageEndSection = () => {
+        if (isAtPageEnd() && sections.length) setActiveLink(sections.at(-1).id);
+      };
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          if (isAtPageEnd()) {
+            setActiveLink(sections.at(-1).id);
+            return;
+          }
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (visible) setActiveLink(visible.target.id);
+        }, { rootMargin: '-18% 0px -68% 0px', threshold: [0, 0.1, 0.4] });
+        sections.forEach((section) => observer.observe(section));
+      }
+      window.addEventListener('scroll', syncPageEndSection, { passive: true });
+      syncPageEndSection();
+
+      const demoVideo = document.querySelector('[data-demo-video]');
+      const demoToggle = document.querySelector('.demo-video__toggle');
+      if (demoVideo && demoToggle) {
+        const syncDemoControl = () => {
+          const paused = demoVideo.paused;
+          demoToggle.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} short tracing video`);
+          demoToggle.classList.toggle('is-paused', paused);
+        };
+        demoVideo.addEventListener('play', syncDemoControl);
+        demoVideo.addEventListener('pause', syncDemoControl);
+        demoToggle.addEventListener('click', async () => {
+          if (demoVideo.paused) {
+            try { await demoVideo.play(); } catch (_) {}
+          } else {
+            demoVideo.pause();
+          }
+          syncDemoControl();
+        });
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          demoVideo.play().catch(syncDemoControl);
+        } else {
+          syncDemoControl();
+        }
+      }
+
+      const pipeline = document.querySelector('[data-pipeline]');
+      if (pipeline) {
+        const figure = pipeline.querySelector('[data-live-architecture]');
+        const pipelineToggle = pipeline.querySelector('.pipeline-toggle');
+        const tourLabel = pipeline.querySelector('.pipeline-live span');
+        const status = pipeline.querySelector('[data-architecture-status]');
+        const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (figure && pipelineToggle) {
+          const paths = {
+            orange: figure.querySelector('#architecture-path-orange'),
+            tactile: figure.querySelector('#architecture-path-tactile'),
+            blue: figure.querySelector('#architecture-path-blue'),
+            fusion: figure.querySelector('#architecture-path-fusion'),
+            policy1: figure.querySelector('#architecture-path-policy-1'),
+            policy2: figure.querySelector('#architecture-path-policy-2'),
+            output: figure.querySelector('#architecture-path-output'),
+            loop: figure.querySelector('#architecture-path-loop')
+          };
+          const elements = {
+            orange: figure.querySelector('[data-particle="orange"]'),
+            orangeSecondary: figure.querySelector('[data-particle="orange-secondary"]'),
+            tactile: figure.querySelector('[data-particle="tactile"]'),
+            blue: figure.querySelector('[data-particle="blue"]'),
+            blueSecondary: figure.querySelector('[data-particle="blue-secondary"]'),
+            fusionOutput: figure.querySelector('[data-particle="fusion-output"]'),
+            policy1: figure.querySelector('[data-particle="policy-1"]'),
+            policy2: figure.querySelector('[data-particle="policy-2"]'),
+            output: figure.querySelector('[data-particle="output"]'),
+            loop: figure.querySelector('[data-particle="loop"]'),
+            loopSecondary: figure.querySelector('[data-particle="loop-secondary"]'),
+            fusionPulse: figure.querySelector('[data-pulse="fusion"]'),
+            encoderPulse: figure.querySelector('[data-pulse="encoder"]'),
+            projection: figure.querySelector('[data-module="projection"]'),
+            transformer: figure.querySelector('[data-module="transformer"]'),
+            gmm: figure.querySelector('[data-module="gmm"]')
+          };
+          const pathLengths = Object.fromEntries(Object.entries(paths).map(([key, path]) => [key, path.getTotalLength()]));
+          const cycleDuration = 9800;
+          let animationFrame = 0;
+          let origin = performance.now();
+          let suspendedAt = origin;
+          let userPaused = false;
+          let inView = true;
+          let pageVisible = !document.hidden;
+          let reducedMotion = motionPreference.matches;
+
+          const clamp = (value, minimum = 0, maximum = 1) => Math.max(minimum, Math.min(maximum, value));
+          const smooth = (value) => {
+            const clamped = clamp(value);
+            return clamped * clamped * (3 - 2 * clamped);
+          };
+          const windowProgress = (time, start, end) => (time - start) / (end - start);
+          const bell = (value) => Math.sin(Math.PI * clamp(value));
+
+          const moveParticle = (element, path, pathLength, time, start, end, gain = 1) => {
+            const rawProgress = windowProgress(time, start, end);
+            if (rawProgress < 0 || rawProgress > 1) {
+              element.style.opacity = '0';
+              return;
+            }
+            const point = path.getPointAtLength(smooth(rawProgress) * pathLength);
+            element.setAttribute('cx', point.x.toFixed(2));
+            element.setAttribute('cy', point.y.toFixed(2));
+            element.style.opacity = String(Math.min(1, bell(rawProgress) * gain));
+          };
+
+          const pulseEllipse = (element, time, start, end, maximumScale, maximumOpacity) => {
+            const progress = windowProgress(time, start, end);
+            if (progress < 0 || progress > 1) {
+              element.style.opacity = '0';
+              element.removeAttribute('transform');
+              return;
+            }
+            const intensity = bell(progress);
+            const scale = 1 + (maximumScale - 1) * smooth(progress);
+            const centerX = Number(element.getAttribute('cx'));
+            const centerY = Number(element.getAttribute('cy'));
+            element.setAttribute('transform', `translate(${centerX} ${centerY}) scale(${scale}) translate(${-centerX} ${-centerY})`);
+            element.style.opacity = String(maximumOpacity * intensity);
+          };
+
+          const pulseModule = (element, time, start, end) => {
+            const progress = windowProgress(time, start, end);
+            if (progress < 0 || progress > 1) {
+              element.style.opacity = '0';
+              element.removeAttribute('transform');
+              return;
+            }
+            const intensity = bell(progress);
+            const scale = 0.9 + 0.85 * intensity;
+            const centerX = Number(element.getAttribute('cx'));
+            const centerY = Number(element.getAttribute('cy'));
+            element.setAttribute('transform', `translate(${centerX} ${centerY}) scale(${scale}) translate(${-centerX} ${-centerY})`);
+            element.style.opacity = String(0.98 * intensity);
+          };
+
+          const renderArchitecture = (now) => {
+            const time = (now - origin) % cycleDuration;
+            moveParticle(elements.orange, paths.orange, pathLengths.orange, time, 180, 2280, 1.45);
+            moveParticle(elements.orangeSecondary, paths.orange, pathLengths.orange, time, 420, 2540, 1.05);
+            moveParticle(elements.tactile, paths.tactile, pathLengths.tactile, time, 240, 1020, 1.28);
+            pulseEllipse(elements.encoderPulse, time, 820, 1560, 2, 0.72);
+            moveParticle(elements.blue, paths.blue, pathLengths.blue, time, 980, 2400, 1.45);
+            moveParticle(elements.blueSecondary, paths.blue, pathLengths.blue, time, 1260, 2720, 1.04);
+            pulseEllipse(elements.fusionPulse, time, 2060, 2860, 2.3, 0.78);
+            moveParticle(elements.fusionOutput, paths.fusion, pathLengths.fusion, time, 2540, 3440, 1.35);
+            pulseModule(elements.projection, time, 3120, 3860);
+            moveParticle(elements.policy1, paths.policy1, pathLengths.policy1, time, 3580, 4200, 1.28);
+            pulseModule(elements.transformer, time, 4000, 4780);
+            moveParticle(elements.policy2, paths.policy2, pathLengths.policy2, time, 4540, 5160, 1.28);
+            pulseModule(elements.gmm, time, 4960, 5760);
+            moveParticle(elements.output, paths.output, pathLengths.output, time, 5420, 6500, 1.35);
+            moveParticle(elements.loop, paths.loop, pathLengths.loop, time, 6380, 9340, 1.28);
+            moveParticle(elements.loopSecondary, paths.loop, pathLengths.loop, time, 6920, 9720, 1.02);
+            animationFrame = window.requestAnimationFrame(renderArchitecture);
+          };
+
+          const shouldAnimate = () => !reducedMotion && !userPaused && inView && pageVisible;
+
+          const updateAnimationState = () => {
+            const now = performance.now();
+            if (shouldAnimate()) {
+              if (!animationFrame) {
+                origin += now - suspendedAt;
+                suspendedAt = 0;
+                animationFrame = window.requestAnimationFrame(renderArchitecture);
+              }
+            } else if (animationFrame) {
+              window.cancelAnimationFrame(animationFrame);
+              animationFrame = 0;
+              suspendedAt = now;
+            }
+          };
+
+          const updateControls = () => {
+            const paused = userPaused || reducedMotion;
+            const controlLabel = reducedMotion ? 'Architecture animation disabled by reduced-motion preference' : userPaused ? 'Resume architecture animation' : 'Pause architecture animation';
+            pipeline.classList.toggle('is-paused', paused);
+            pipelineToggle.disabled = reducedMotion;
+            pipelineToggle.setAttribute('aria-pressed', String(paused));
+            pipelineToggle.setAttribute('aria-label', controlLabel);
+            pipelineToggle.setAttribute('title', controlLabel);
+            pipelineToggle.querySelector('span').textContent = reducedMotion ? 'Motion reduced' : userPaused ? 'Resume flow' : 'Pause flow';
+            if (tourLabel) tourLabel.textContent = reducedMotion ? 'Static architecture' : userPaused ? 'Architecture paused' : 'Live architecture';
+            if (status) status.textContent = reducedMotion ? 'Architecture animation disabled by reduced-motion preference.' : userPaused ? 'Architecture animation paused.' : '';
+          };
+
+          pipelineToggle.addEventListener('click', () => {
+            userPaused = !userPaused;
+            updateControls();
+            updateAnimationState();
+          });
+
+          if ('IntersectionObserver' in window) {
+            const architectureObserver = new IntersectionObserver((entries) => {
+              inView = entries.some((entry) => entry.isIntersecting);
+              updateAnimationState();
+            }, { threshold: 0.01 });
+            architectureObserver.observe(figure);
+          }
+
+          document.addEventListener('visibilitychange', () => {
+            pageVisible = !document.hidden;
+            updateAnimationState();
+          });
+
+          motionPreference.addEventListener?.('change', (event) => {
+            reducedMotion = event.matches;
+            updateControls();
+            updateAnimationState();
+          });
+
+          updateControls();
+          updateAnimationState();
+        }
+      }
+
+      const copyButton = document.querySelector('[data-copy-bibtex]');
+      const bibtex = document.getElementById('bibtex');
+      copyButton?.addEventListener('click', async () => {
+        const label = copyButton.querySelector('span');
+        const value = bibtex.textContent.trim();
+        try {
+          await navigator.clipboard.writeText(value);
+        } catch (_) {
+          const textarea = document.createElement('textarea');
+          textarea.value = value;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          textarea.remove();
+        }
+        label.textContent = 'Copied';
+        copyButton.classList.add('is-copied');
+        window.setTimeout(() => {
+          label.textContent = 'Copy BibTeX';
+          copyButton.classList.remove('is-copied');
+        }, 1800);
+      });
+    })();
+  </script>
+</body>
+</html>
