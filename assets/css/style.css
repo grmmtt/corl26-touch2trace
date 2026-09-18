@@ -137,13 +137,13 @@ pre {
 }
 
 .eyebrow {
-  margin: 0 0 11px;
+  margin: 0 0 12px;
   color: var(--adi-blue);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  line-height: 1.4;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -307,15 +307,6 @@ html[data-theme="dark"] .adi-brand img {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.8;
-}
-
-.button small {
-  color: var(--muted);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  text-transform: uppercase;
 }
 
 a.button:hover {
@@ -491,6 +482,11 @@ html[data-theme="dark"] .theme-toggle__moon {
   margin-top: 32px;
 }
 
+.paper-figure.paper-figure--overview figcaption {
+  width: 100%;
+  max-width: none;
+}
+
 .paper-figure img {
   width: 100%;
   background: #fff;
@@ -550,10 +546,6 @@ html[data-theme="dark"] .theme-toggle__moon {
 .section--video {
   color: #fff;
   background: #101316;
-}
-
-.section-heading--light .eyebrow {
-  color: #7ab6e6;
 }
 
 .video-embed {
@@ -1091,23 +1083,9 @@ caption {
   padding: 14px 17px;
   color: var(--ink);
   border-bottom: 1px solid var(--line);
+  font-size: 0.86rem;
+  font-weight: 700;
   text-align: left;
-}
-
-caption strong,
-caption span {
-  display: block;
-}
-
-caption strong {
-  font-size: 0.82rem;
-}
-
-caption span {
-  margin-top: 2px;
-  color: var(--muted);
-  font-size: 0.66rem;
-  font-weight: 500;
 }
 
 th,
@@ -1119,11 +1097,13 @@ td {
 }
 
 thead th {
-  color: var(--muted);
-  background: color-mix(in srgb, var(--adi-blue-soft) 55%, var(--surface));
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  padding-block: 13px;
+  color: var(--ink-soft);
+  background: var(--surface-alt);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  text-transform: none;
 }
 
 thead abbr {
@@ -1143,6 +1123,10 @@ tbody tr:last-child td {
   border-bottom: 0;
 }
 
+tbody tr {
+  background: color-mix(in srgb, var(--surface-alt) 24%, var(--surface));
+}
+
 tbody th {
   font-weight: 700;
 }
@@ -1158,17 +1142,9 @@ tbody th span {
   text-transform: uppercase;
 }
 
-.table-row--train {
-  background: var(--surface-alt);
-}
-
-.table-row--highlight {
-  background: var(--adi-blue-soft);
-}
-
 .table-row--highlight th,
 .table-row--highlight td {
-  color: var(--adi-blue-dark);
+  color: var(--ink);
   font-weight: 700;
 }
 
