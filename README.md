@@ -1,6 +1,6 @@
 # Touch2Trace Project Page
 
-Project website for **Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing**, accepted at CoRL 2026.
+Project website for **Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing**. CoRL 2026 · Austin, Texas, USA.
 
 - Website: <https://grmmtt.github.io/corl26-touch2trace/>
 - Paper: <https://arxiv.org/abs/2609.15921>

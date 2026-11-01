@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Touch2Trace — Tactile-Driven Dexterous Cable Tracing</title>
-  <meta name="description" content="Touch2Trace is a tactile-driven imitation-learning system for dexterous cable tracing, accepted at CoRL 2026.">
+  <meta name="description" content="Touch2Trace is a tactile-driven imitation-learning system for dexterous cable tracing. CoRL 2026 · Austin, Texas, USA.">
   <meta name="author" content="Matteo Grimaldi, David Klee, Ziling Chen, Tong Jian, Wonju Lee, Wenjie Lu, Tao Yu, Saleh Nabi">
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://grmmtt.github.io/corl26-touch2trace/">
@@ -20,7 +20,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Touch2Trace: Tactile-Driven Imitation Learning for Dexterous Cable Tracing">
-  <meta name="twitter:description" content="Accepted at CoRL 2026. Tactile-driven cable tracing without vision or explicit cable-state estimation.">
+  <meta name="twitter:description" content="CoRL 2026 · Austin, Texas, USA. Tactile-driven cable tracing without vision or explicit cable-state estimation.">
   <meta name="twitter:image" content="https://grmmtt.github.io/corl26-touch2trace/assets/img/social-preview.webp">
   <meta name="twitter:image:alt" content="Touch2Trace tactile-driven dexterous cable tracing project overview">
 
@@ -35,7 +35,7 @@
   <meta name="citation_author" content="Nabi, Saleh">
   <meta name="citation_date" content="2026/09/14">
   <meta name="citation_arxiv_id" content="2609.15921">
-  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2609.15921">
+  <meta name="citation_pdf_url" content="https://openreview.net/pdf?id=ALlLaCTHKQ">
 
   <script>
     (() => {
@@ -54,19 +54,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="alternate" type="application/pdf" title="Touch2Trace paper PDF" href="https://arxiv.org/pdf/2609.15921">
-  <link rel="stylesheet" href="assets/css/style.css?v=18">
+  <link rel="alternate" type="application/pdf" title="Touch2Trace CoRL 2026 paper PDF" href="https://openreview.net/pdf?id=ALlLaCTHKQ">
+  <link rel="stylesheet" href="assets/css/style.css?v=20">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="hero">
     <div class="container brand-rail">
-      <a class="conference-brand" href="https://www.corl.org/" target="_blank" rel="noopener" aria-label="Conference on Robot Learning website">
-        <img src="assets/img/corl-2026-logo.webp" alt="CoRL" width="720" height="253" decoding="async">
-      </a>
       <a class="adi-brand" href="https://www.analog.com/" target="_blank" rel="noopener" aria-label="Analog Devices website">
         <img src="assets/img/adi-logo.svg" alt="Analog Devices" width="432" height="123" decoding="async">
+      </a>
+      <a class="conference-brand" href="https://www.corl.org/" target="_blank" rel="noopener" aria-label="Conference on Robot Learning website">
+        <img src="assets/img/corl-2026-logo.webp" alt="CoRL" width="720" height="253" decoding="async">
       </a>
     </div>
 
@@ -94,7 +94,7 @@
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
           arXiv
         </a>
-        <a class="button" href="https://arxiv.org/pdf/2609.15921" target="_blank" rel="noopener">
+        <a class="button" href="https://openreview.net/pdf?id=ALlLaCTHKQ" target="_blank" rel="noopener" title="Download the CoRL 2026 paper from OpenReview" aria-label="PDF: CoRL 2026 paper on OpenReview">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
           PDF
         </a>
@@ -110,6 +110,10 @@
           <svg aria-hidden="true" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></svg>
           Dataset
         </button>
+        <a class="button" href="https://youtu.be/lcwXzaEp90U" target="_blank" rel="noopener" title="Watch our paper discussion on RoboPapers — Episode 112" aria-label="Watch our paper discussion on RoboPapers (YouTube)">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 6 3-6 3z"/></svg>
+          RoboPapers <span aria-hidden="true">↗</span>
+        </a>
       </nav>
     </div>
   </header>
@@ -293,19 +297,41 @@
           <p>Dense tactile feedback enables stable pinch-and-curl tracing, smooth closed-loop control, and transfer to unseen cable materials and routings.</p>
         </div>
 
-        <figure class="demo-video">
-          <div class="demo-video__frame">
-            <video muted loop playsinline preload="metadata" poster="assets/img/tracing-demo-poster.webp" data-demo-video aria-describedby="tracing-video-description">
-              <source src="assets/video/tracing-demo.mp4" type="video/mp4">
-              Your browser does not support embedded video. <a href="assets/video/tracing-demo.mp4">Download the tracing demonstration.</a>
-            </video>
-            <div class="demo-video__label"><i aria-hidden="true"></i>Autonomous tracing · 1× speed</div>
-            <button class="demo-video__toggle is-paused" type="button" aria-label="Play short tracing video">
+        <figure class="demo-video" data-demo-comparison>
+          <div class="demo-video__grid">
+            <div class="demo-video__panel">
+              <h3 class="demo-video__heading" id="proprioception-video-label">Proprioception only</h3>
+              <div class="demo-video__frame">
+                <video id="proprioception-video" muted playsinline preload="auto" poster="assets/img/tracing-proprioception-only-poster.webp" data-demo-video aria-labelledby="proprioception-video-label" aria-describedby="tracing-video-description">
+                  <source src="assets/video/tracing-proprioception-only.mp4" type="video/mp4">
+                  Your browser does not support embedded video. <a href="assets/video/tracing-proprioception-only.mp4">Download the proprioception-only demonstration.</a>
+                </video>
+              </div>
+            </div>
+            <div class="demo-video__panel">
+              <h3 class="demo-video__heading" id="tactile-video-label">Tactile + proprioception</h3>
+              <div class="demo-video__frame">
+                <video id="tactile-video" muted playsinline preload="auto" poster="assets/img/tracing-tactile-proprioception-poster.webp" data-demo-video aria-labelledby="tactile-video-label" aria-describedby="tracing-video-description">
+                  <source src="assets/video/tracing-tactile-proprioception.mp4" type="video/mp4">
+                  Your browser does not support embedded video. <a href="assets/video/tracing-tactile-proprioception.mp4">Download the tactile and proprioception demonstration.</a>
+                </video>
+              </div>
+            </div>
+          </div>
+          <div class="demo-video__controls" role="group" aria-label="Comparison video controls">
+            <button class="demo-video__control demo-video__toggle is-paused" type="button" aria-label="Play both comparison videos" aria-controls="proprioception-video tactile-video">
               <svg class="demo-video__pause" aria-hidden="true" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
               <svg class="demo-video__play" aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 9 6-9 6z"/></svg>
+              <span>Play both</span>
             </button>
+            <button class="demo-video__control demo-video__restart" type="button" aria-label="Restart both comparison videos" aria-controls="proprioception-video tactile-video">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></svg>
+              <span>Restart both</span>
+            </button>
+            <span class="demo-video__speed">1× speed · 5-second excerpts</span>
           </div>
-          <figcaption id="tracing-video-description">The policy continuously regulates contact as the thumb and index finger advance along the cable through repeated pinch-and-curl motions.</figcaption>
+          <p class="demo-video__status" role="status" hidden></p>
+          <figcaption id="tracing-video-description">With proprioception alone, motion becomes mechanical and cable-unaware. Adding tactile feedback enables controlled pinch-and-curl tracing. Both excerpts play together at their original speed.</figcaption>
         </figure>
 
         <div class="metric-grid">
@@ -450,7 +476,7 @@
 
   <footer>
     <div class="container footer-content">
-      <div><strong>Touch2Trace</strong><span>Accepted at CoRL 2026</span></div>
+      <div><strong>Touch2Trace</strong><span>CoRL 2026 · Austin, Texas, USA</span></div>
       <p>Dexterous AI Group, Analog Devices, Inc.</p>
     </div>
   </footer>
@@ -542,29 +568,120 @@
       window.addEventListener('scroll', syncPageEndSection, { passive: true });
       syncPageEndSection();
 
-      const demoVideo = document.querySelector('[data-demo-video]');
-      const demoToggle = document.querySelector('.demo-video__toggle');
-      if (demoVideo && demoToggle) {
-        const syncDemoControl = () => {
-          const paused = demoVideo.paused;
-          demoToggle.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} short tracing video`);
-          demoToggle.classList.toggle('is-paused', paused);
+      const demoComparison = document.querySelector('[data-demo-comparison]');
+      if (demoComparison) {
+        const videos = [...demoComparison.querySelectorAll('[data-demo-video]')];
+        const toggle = demoComparison.querySelector('.demo-video__toggle');
+        const restart = demoComparison.querySelector('.demo-video__restart');
+        const status = demoComparison.querySelector('.demo-video__status');
+        const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let wantsPlayback = !motionPreference.matches;
+        let starting = false;
+        let playRequest = 0;
+        let syncFrame = 0;
+        let failed = false;
+
+        const updateControls = () => {
+          toggle.classList.toggle('is-paused', !wantsPlayback);
+          toggle.setAttribute('aria-label', `${wantsPlayback ? 'Pause' : 'Play'} both comparison videos`);
+          toggle.querySelector('span').textContent = wantsPlayback ? 'Pause both' : 'Play both';
         };
-        demoVideo.addEventListener('play', syncDemoControl);
-        demoVideo.addEventListener('pause', syncDemoControl);
-        demoToggle.addEventListener('click', async () => {
-          if (demoVideo.paused) {
-            try { await demoVideo.play(); } catch (_) {}
-          } else {
-            demoVideo.pause();
+
+        const pauseTogether = () => {
+          // Invalidate pending play promises when a click, seek, or buffer interrupts playback.
+          playRequest += 1;
+          starting = false;
+          videos.forEach((video) => video.pause());
+          window.cancelAnimationFrame(syncFrame);
+          syncFrame = 0;
+        };
+
+        const synchronize = () => {
+          const [leader, follower] = videos;
+          if (!leader.paused && !follower.paused && !follower.seeking
+              && Math.abs(leader.currentTime - follower.currentTime) > 0.08) {
+            follower.currentTime = leader.currentTime;
           }
-          syncDemoControl();
+          syncFrame = window.requestAnimationFrame(synchronize);
+        };
+
+        const playTogether = async () => {
+          if (!wantsPlayback || document.hidden || failed || starting
+              || videos.some((video) => video.readyState < 3 || video.seeking)
+              || videos.every((video) => !video.paused)) return;
+          const request = ++playRequest;
+          starting = true;
+          try {
+            videos.forEach((video) => { video.playbackRate = 1; });
+            await Promise.all(videos.map((video) => video.play()));
+            if (request !== playRequest) return;
+            starting = false;
+            status.hidden = true;
+            if (!syncFrame) syncFrame = window.requestAnimationFrame(synchronize);
+          } catch (_) {
+            if (request !== playRequest) return;
+            wantsPlayback = false;
+            pauseTogether();
+            status.textContent = 'Select Play both to start the comparison.';
+            status.hidden = false;
+            updateControls();
+          }
+        };
+
+        const restartTogether = () => {
+          pauseTogether();
+          videos.forEach((video) => { video.currentTime = 0; });
+          playTogether();
+        };
+
+        const handleLoadError = () => {
+          failed = true;
+          wantsPlayback = false;
+          pauseTogether();
+          toggle.disabled = true;
+          restart.disabled = true;
+          status.textContent = 'The comparison videos could not load. Reload the page to try again.';
+          status.hidden = false;
+          updateControls();
+        };
+
+        toggle.addEventListener('click', () => {
+          wantsPlayback = !wantsPlayback;
+          if (wantsPlayback) playTogether();
+          else pauseTogether();
+          updateControls();
         });
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          demoVideo.play().catch(syncDemoControl);
-        } else {
-          syncDemoControl();
-        }
+        restart.addEventListener('click', () => {
+          wantsPlayback = true;
+          restartTogether();
+          updateControls();
+        });
+        videos.forEach((video) => {
+          video.addEventListener('canplay', playTogether);
+          video.addEventListener('seeked', playTogether);
+          video.addEventListener('waiting', () => {
+            if (wantsPlayback && video.readyState < 3) pauseTogether();
+          });
+          // One shared loop boundary keeps the equal-length excerpts aligned.
+          video.addEventListener('ended', () => {
+            if (wantsPlayback && video.ended) restartTogether();
+          });
+          video.addEventListener('error', handleLoadError);
+          video.querySelector('source')?.addEventListener('error', handleLoadError);
+        });
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) pauseTogether();
+          else playTogether();
+        });
+        motionPreference.addEventListener?.('change', (event) => {
+          if (event.matches) {
+            wantsPlayback = false;
+            pauseTogether();
+            updateControls();
+          }
+        });
+        updateControls();
+        playTogether();
       }
 
       const pipeline = document.querySelector('[data-pipeline]');
